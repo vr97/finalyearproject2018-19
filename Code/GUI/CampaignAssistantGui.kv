@@ -1,0 +1,468 @@
+#:import SlideTransition kivy.uix.screenmanager.SlideTransition
+#:set default_font_size 0.45  # represents a variable to set 50% of height
+
+# general instructions:
+# .to change the font size just modulate the float value multiplied with the height
+# .to change the color of buttons, use the default values to have consistency throughout the GUI
+# .create a custom widget which can be used at multiple places os that code maintenance is easier
+
+# default values for back button of every screen
+<BackButton>:
+    text: "Back"
+    on_release:
+        app.root.transition = SlideTransition(direction='right')
+        app.root.current = "homeScreen"
+    color: 1,1,1,1
+    pos_hint: {'x':0.05,'top':0.95}
+    size_hint: (.1,.1)
+    font_size: self.height * default_font_size
+
+# default values of a float layout in every screen
+<FloatLayout>:
+    canvas:
+        Color:
+            rgba: 0.8,1,1,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+# default values of a home screen button in every screen
+<HomeScreenButton>:
+    size_hint: (0.2,0.2)
+    font_size: self.height * 0.25
+
+# default values for the logo
+<LogoImage>:
+    source: "Logo.png"
+    pos_hint: {'x':0.80,'y':0.80}
+    size_hint: (0.2,0.2)
+
+# Setting a default color for all buttons
+<Button>:
+    canvas.before:
+        Color:
+            rgba: .2, .2, .6, 1
+        Line: # border line
+            width: 5
+            rectangle: self.x, self.y, self.width, self.height
+    background_normal: ''
+    background_color: (0.2,0.6,1,1)
+
+# Topic label is used for mentioning a screen's topic
+<TopicLabel>:
+    color: 0.1,0.1,0.6,1
+    size_hint: (0.5,0.20)
+    font_size: self.height * default_font_size
+    pos_hint: {'x':0.25,'y':0.77}
+
+# Screens begin here
+ScreenManagement:
+    #LoginScreen:
+    HomeScreen:
+    WordCloudScreen:
+    PopularityGraphScreen:
+    AboutUsScreen:
+    SentimentTestScreen:
+    FeedbackScreen:
+    AnalysisScreen:
+
+<AboutUsScreenLabel>
+    canvas.before:
+        Color:
+            rgba: 0.4,0,0.8,1 # color for the analysis screen
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    font_size: self.height * 0.25
+    size_hint: (label_default_width,label_default_height)
+
+<AboutUsScreenDescriptionLabel>
+    markup: True
+    color: description_color
+
+<AboutUsScreen>:
+    #:set description_font_size 0.13
+    #:set description_color [0,1,0.6,1]
+    name: "aboutUsScreen"
+    FloatLayout:
+        LogoImage:
+        BackButton:
+        TopicLabel:
+            text: "Help"
+            pos_hint: {'x':0.25,'y':0.8}
+            size_hint: (0.5,0.2)
+            font_size: self.height * 0.4
+        AboutUsScreenLabel:
+            pos_hint: {"x":0.05,"y":0.1}
+            size_hint: (0.4,0.7)
+        AboutUsScreenDescriptionLabel:
+            text: '[b]'+"Primary utilities provided:"
+            pos_hint: {'x':0.15,'y':0.6}
+            size_hint: (0.2,0.2)
+            font_size: self.height * 0.25
+        AboutUsScreenDescriptionLabel:
+            text: '[b]'+"""Data Visualization """+'[/b]'
+            pos_hint: {'x':0.15,'y':0.5}
+            size_hint: (0.2,0.2)
+            font_size: self.height * description_font_size
+        AboutUsScreenDescriptionLabel:
+            text: '[b]'+"""Line Graph  :  This graph object indicates the trend\n over a particular defined time frame."""+'[/b]'
+            pos_hint: {'x':0.15,'y':0.4}
+            size_hint: (0.2,0.2)
+            font_size: self.height * description_font_size
+        AboutUsScreenDescriptionLabel:
+            text: '[b]'+"""Pie Chart  :  This graph object indicates the amount of positive\nand negative tweets for a particular subject"""+'[/b]'
+            pos_hint: {'x':0.15,'y':0.3}
+            size_hint: (0.2,0.2)
+            font_size: self.height * description_font_size
+        AboutUsScreenDescriptionLabel:
+            text: '[b]'+"""Word Cloud  :  This graph object will indicate the qualitative\ninsights that will enable you to identify key issues\nthat are very popular among the community"""+'[/b]'
+            pos_hint: {'x':0.15,'y':0.175}
+            size_hint: (0.2,0.2)
+            font_size: self.height * description_font_size
+        AboutUsScreenLabel:
+            pos_hint: {"x":0.55,"y":0.1}
+            size_hint: (0.4,0.7)
+        AboutUsScreenDescriptionLabel:
+            text: '[b]'+"Having trouble?"+'[/b]'
+            pos_hint: {'x':0.65,'y':0.6}
+            size_hint: (0.2,0.2)
+            font_size: self.height * 0.25
+        AboutUsScreenDescriptionLabel:
+            text: '[b]'+"Have questions? Email to \n\n\n\n     For technical Help:\n     Yash Tibrewal: yashkush.tibrewal@gmail.com\n\n     For other software issues\n     Animesh Yadav: animeshy@gmail.com\n\n     For extensive user manual/documentation\n     Vivek Rao: v_rao97@yahoo.com"+'[/b]'
+            pos_hint: {'x':0.64,'y':0.3}
+            size_hint: (0.2,0.2)
+            font_size: self.height * description_font_size
+
+<PopularityGraphScreen>:
+    name: "popularityGraphScreen"
+    FloatLayout:
+        LogoImage:
+        Label:
+            text: "Popularity Graph"
+        BackButton:
+
+<WordCloudScreen>:
+    name: "wordCloudScreen"
+    FloatLayout:
+        LogoImage:
+        BackButton:
+        TopicLabel:
+            text: "Trending Topics"
+        Spinner:
+            pos_hint: {'x':0.75,'y':0.55}
+            size_hint: (0.2,0.1)
+            font_size: self.height * 0.4
+            text: "<select>"
+            values: ["Mr. Rahul Gandhi","Mr. Narendra Modi"]
+            on_text: root.on_select(self.text)
+        Image:
+            size_hint: (0.7,0.7)
+            pos_hint: {'x':0,'y':0.05}
+            source: root.path_to_cloud
+
+<HomeScreen>:
+    name: 'homeScreen'
+
+    FloatLayout:
+        HomeLogoImage:
+            source: 'large Logo.png'
+            pos_hint: {'x':.325,'y':0.65}
+            size_hint: (.35,.35)
+        HomeScreenButton:
+            pos_hint: {'x':0.1,'y':.4}
+            text: "Test\nSentiment"
+            on_release:
+                app.root.transition = SlideTransition(direction='left')
+                app.root.current = "sentimentTestScreen"
+        HomeScreenButton:
+            pos_hint: {'x':0.4,'y':0.4}
+            text: "Popularity\nGraph"
+            on_release:
+                app.root.transition = SlideTransition(direction='left')
+                app.root.current = "popularityGraphScreen"
+        HomeScreenButton:
+            pos_hint: {'x':0.7,'y':0.4}
+            text: "Trending\nTopics"
+            on_release:
+                app.root.transition = SlideTransition(direction='left')
+                app.root.current = "wordCloudScreen"
+        HomeScreenButton:
+            pos_hint: {'x':0.1,'y':0.1}
+            text: "Analysis"
+            on_release:
+                app.root.transition = SlideTransition(direction='left')
+                app.root.current = "analysisScreen"
+        HomeScreenButton:
+            pos_hint: {'x':0.4,'y':0.1}
+            text: "Feedback"
+            on_release:
+                app.root.transition = SlideTransition(direction='left')
+                app.root.current = "feedbackScreen"
+        HomeScreenButton:
+            pos_hint: {'x':0.7,'y':0.1}
+            text: "Help\nContact us"
+            on_release:
+                app.root.transition = SlideTransition(direction='left')
+                app.root.current = "aboutUsScreen"
+
+<LabelFeedbackScreen>
+    color: 0.1,0.2,1,1
+    size_hint: (0.25,0.125)
+    font_size: self.height * default_font_size
+    halign: "left"
+
+<TextInputFeedbackScreen>
+    size_hint: (0.5,0.1)
+
+<FeedbackScreen>:
+    name: "feedbackScreen"
+    FloatLayout:
+        LogoImage:
+        BackButton:
+        TopicLabel:
+            text: "Feedback"
+        LabelFeedbackScreen:
+            pos_hint: {'x':0.1,'y':0.65}
+            text: "Navigation"
+        TextInputFeedbackScreen:
+            id: nav
+            text: root.entered_text_nav
+            pos_hint: {'x':0.4,'y':0.65}
+            on_focus: root.clear_text_nav()
+        LabelFeedbackScreen:
+            pos_hint: {'x':0.1,'y':0.5}
+            text: "Cost"
+        TextInputFeedbackScreen:
+            id: cost
+            text: root.entered_text_cost
+            pos_hint: {'x':0.4,'y':0.5}
+            on_focus: root.clear_text_cost()
+        LabelFeedbackScreen:
+            pos_hint: {'x':0.1,'y':0.35}
+            text: "Response Time:"
+        TextInputFeedbackScreen:
+            id: response
+            text: root.entered_text_response
+            pos_hint: {'x':0.4,'y':0.35}
+            on_focus: root.clear_text_response()
+        LabelFeedbackScreen:
+            pos_hint: {'x':0.1,'y':0.2}
+            text: "Others:"
+        TextInputFeedbackScreen:
+            id: others
+            text: root.entered_text_others
+            pos_hint: {'x':0.4,'y':0.2}
+            on_focus: root.clear_text_others()
+        Button:
+            text: "Submit"
+            pos_hint: {'x':.4,'y':0.05}
+            size_hint: (0.2,0.1)
+            font_size: self.height*default_font_size
+            opacity: root.button_visible
+            disabled: root.button_disabled
+            on_release: root.submit(nav.text,cost.text,response.text,others.text)
+        LabelFeedbackScreen:
+            opacity: root.label_visible
+            pos_hint: {'x':0.4,'y':0.05}
+            text: "Your response has been recorded"
+
+# setting some default values for the label
+<AnalysisScreenLabel>
+    #:set label_default_width 0.2 #setting 20% of the screen width as default width
+    #:set label_default_height 0.225 #setting 22.5% of the screen height as default height
+    canvas.before:
+        Color:
+            rgba: 0,1,1,1 # color for the analysis screen
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    font_size: self.height * 0.25
+    size_hint: (label_default_width,label_default_height)
+
+<AnalysisScreen>:
+    name: "analysisScreen"
+    FloatLayout:
+        LogoImage:
+        BackButton:
+        TopicLabel:
+            text:"Summary"
+        # tweets collected, unique tweets, positive tweets, negative tweets, accuracy,
+        AnalysisScreenLabel:
+            pos_hint: {'x':0.1,'y':0.175}
+            text: root.tweets_collected
+        Label:
+            size_hint: (0.1,.125)
+            pos_hint: {'x':0.15,'y':0.3}
+            text: "Tweets Collected"
+            color: 1,1,1,1
+            font_size: self.height * 0.35
+        AnalysisScreenLabel:
+            pos_hint: {'x':0.4,'y':0.175}
+            text: root.unique_tweets
+        Label:
+            size_hint: (0.1,.125)
+            pos_hint: {'x':0.45,'y':0.3}
+            text: "Unique Tweets"
+            color: 1,1,1,1
+            font_size: self.height * 0.35
+        AnalysisScreenLabel:
+            canvas.before:
+                Color:
+                    rgba: 1,1,0,1 # color for the analysis screen
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            pos_hint: {'x':0.7,'y':0.175}
+            text: "5000"
+        Label:
+            size_hint: (0.1,.125)
+            pos_hint: {'x':0.75,'y':0.3}
+            text: "Annotated"
+            color: 1,1,1,1
+            font_size: self.height * 0.35
+        AnalysisScreenLabel:
+            canvas.before:
+                Color:
+                    rgba: 0,1,0,1 # color for the analysis screen
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            pos_hint: {'x':0.1,'y':0.475}
+            #text: root.positives
+            text: "940"
+        Label:
+            size_hint: (0.1,.125)
+            pos_hint: {'x':0.15,'y':0.6}
+            text: "Positives"
+            color: 1,1,1,1
+            font_size: self.height * 0.35
+        AnalysisScreenLabel:
+            canvas.before:
+                Color:
+                    rgba: 1,0,0,1 # color for the analysis screen
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            pos_hint: {'x':0.4,'y':0.475}
+            #text: root.negatives
+            text: "1750"
+        Label:
+            size_hint: (0.1,.125)
+            pos_hint: {'x':0.45,'y':0.6}
+            text: "Negatives"
+            color: 1,1,1,1
+            font_size: self.height * 0.35
+        AnalysisScreenLabel:
+            canvas.before:
+                Color:
+                    rgba: 1,1,0,1 # color for the analysis screen
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            pos_hint: {'x':0.7,'y':0.475}
+            text: "70%"
+        Label:
+            size_hint: (0.1,.125)
+            pos_hint: {'x':0.75,'y':0.6}
+            text: "Accuracy"
+            color: 1,1,1,1
+            font_size: self.height * 0.35
+        Button:
+            text: "refresh"
+            font_size: self.height * default_font_size
+            size_hint: (0.075,0.075)
+            pos_hint: {'x':0.85,'y':0.05}
+            on_release: root.refresh_values()
+
+# default values for screen labels in login screen
+<LoginScreenLabel>:
+    size_hint: (0.15,0.15)
+    color: 0.4,0.4,0.8,1
+    halign: "left"
+
+# default values for text input in login screen
+<LoginScreenTextInput>:
+    size_hint: (0.25,0.1)
+    font_size: self.height * default_font_size
+
+<LoginScreen>:
+    name: "loginScreen"
+    FloatLayout:
+        TopicLabel:
+            text: "Welcome to Campaign Assistant!"
+            pos_hint: {'x':0.25,'y':0.85}
+            size_hint: (0.5,0.2)
+            font_size: self.height * 0.4
+        TopicLabel:
+            text: "Go ahead and exploit the insights for your Competitive Advantage."
+            pos_hint: {'x':0.25,'y':0.75}
+            size_hint: (0.5,0.2)
+            font_size: self.height * 0.2
+        LoginLogoImage:
+            source: 'large Logo.png'
+            pos_hint: {'x':0.05,'y':0.3}
+            size_hint: (.35,.35)
+        LoginScreenButton:
+            size_hint: (0.2,0.1)
+            pos_hint: {'x':0.4,'y':0.05}
+            on_release: self.pressed(login_id.text,password.text)
+            text: "Login"
+            font_size: self.height * default_font_size
+        LoginScreenLabel:
+            pos_hint: {'x':0.46,'y':0.5}
+            text: "Login ID:"
+            font_size: self.height * default_font_size
+        LoginScreenLabel:
+            pos_hint: {'x':0.475,'y':0.25}
+            text: "Password:"
+            font_size: self.height * default_font_size
+        LoginScreenTextInput:
+            id: login_id
+            pos_hint: {'x':0.725,'y':0.525}
+        LoginScreenTextInput:
+            id: password
+            pos_hint: {'x':0.725,'y':0.275}
+            password: True
+
+
+<SentimentTestScreen>:
+    name: "sentimentTestScreen"
+    FloatLayout:
+        LogoImage:
+        TopicLabel:
+            text: "Sentiment Test"
+        BackButton:
+        Label:
+            color: 0.4,0.4,0.8,1
+            text: "Text :"
+            size_hint: (0.25,0.18)
+            font_size: self.height * default_font_size
+            pos_hint: {'x':0.05,'y':0.54}
+        TextInput:
+            color: 0.1,0.2,1,1
+            id: sentiment_text_input
+            size_hint: (0.5,.18)
+            pos_hint: {'x':0.3,'y':0.54}
+            multiline: False
+            text: ""
+            font_size: self.height * default_font_size
+        Label:
+            color: 0.4,0.4,0.8,1
+            text: "Result :"
+            size_hint: (0.25,0.18)
+            font_size: self.height * default_font_size
+            pos_hint: {'x':0.05,'y':0.27}
+        Label:
+            text: root.predicted_sentiment
+            color: root.predicted_sentiment_color
+            size_hint: (0.5,.18)
+            pos_hint: {'x':0.15,'y':0.27}
+            multiline: False
+            font_size: self.height * default_font_size
+        Button:
+            text: "Predict Sentiment"
+            size_hint: (0.4,0.11)
+            pos_hint: {'x':0.3,'y':0.11}
+            font_size: self.height *default_font_size
+            on_release: root.predict_sentiment(sentiment_text_input.text)

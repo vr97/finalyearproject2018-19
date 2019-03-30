@@ -1,0 +1,4 @@
+nav : Kindly rate us and let us know your valuable feedback
+cost : Kindly rate us and let us know your valuable feedback
+response : Kindly rate us and let us know your valuable feedback
+others : Kindly rate us and let us know your valuable feedback
